@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\User;
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,3 +15,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/api/auth/login', 'AuthController@index');
+Route::post('/api/auth/aksilog', function(Request $request){
+	$data = User::get();
+	$data->username = $request->name;
+	$data->password = $request->pass;
+
+
+
+	return view('home',$data);
+});
