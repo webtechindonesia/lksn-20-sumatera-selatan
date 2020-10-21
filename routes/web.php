@@ -20,7 +20,5 @@ Route::post('/api/auth/aksilog', function(Request $request){
 	$data->username = $request->name;
 	$data->password = $request->pass;
 
-
-
 	return view('home',$data);
 });
