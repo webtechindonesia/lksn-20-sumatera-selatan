@@ -37,10 +37,14 @@
 		text-align: left;
 	}
 	.rewind{
-		margin: 0 auto;
+		margin-left : 40px;
 		border-style: none;
 		padding: 2px;
-		font-size: 20px;
+		font-size: 30px;
+		border-radius: 10px;
+		color: white;
+		background-color: #0069d9;
+		font-family: cursive;
 	}
 </style>
 <body>
@@ -50,7 +54,7 @@
 			<tr>
 				<td class="score">
 					<p>Score :</p>
-					<p>0</p>
+					<p>6</p>
 				</td>
 				<td><p class="title">PHYTONS</p></td>
 				<td class="time">
@@ -70,7 +74,7 @@
               var c = 20;
               var tekan ;
               var makanan;
-              var nilai;
+              var nilai=6;
               var array_ular; 
  
               function init() {
@@ -85,7 +89,7 @@
  
             init();
               function create_snake() {
-                var length = 20;
+                var length = 6;
                 array_ular = [];
                 for (var i = length - 1; i >= 0; i--) {
                   array_ular.push({ x: i, y: 0 });
@@ -164,7 +168,6 @@
                 else if (key == "40" || key =="83" && tekan != "up") tekan = "down";
             });
             });
- 
             </script>
 		<button type="submit" class="rewind">REWIND</button>
 	</div>
