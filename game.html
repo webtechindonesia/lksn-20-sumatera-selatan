@@ -20,7 +20,7 @@
 		padding-top: 50px;
 		width: 100%;
 	}
-	p{
+	p,time{
 		color: white;
 		font-family: cursive;
 		font-size: 30px;
@@ -37,7 +37,10 @@
 		text-align: left;
 	}
 	.rewind{
-
+		margin: 0 auto;
+		border-style: none;
+		padding: 2px;
+		font-size: 20px;
 	}
 </style>
 <body>
@@ -47,12 +50,12 @@
 			<tr>
 				<td class="score">
 					<p>Score :</p>
-					<p>2</p>
+					<p>0</p>
 				</td>
 				<td><p class="title">PHYTONS</p></td>
 				<td class="time">
 					<p>Time :</p>
-					<p>aa</p>
+					<time>01</time>
 				</td>
 			</tr>
 		</table>
@@ -60,91 +63,69 @@
         <script type="text/javascript">
             $(document).ready(function() {
  
-              // deklarasi
               var ruang = $("#ruang")[0];
               var ctx = ruang.getContext("2d");
               var lebar = $("#ruang").width();
-              var tinggi = $("#ruang").height();
- 
-              var cw = 10;
+              var tinggi = $("#ruang").height(); 
+              var c = 20;
               var tekan ;
               var makanan;
               var nilai;
- 
-              //membuat cell aray untuk membuat ular
               var array_ular; 
  
               function init() {
-                tekan = "right"; //default direction
+                tekan = "right";
                 create_snake();
-                create_makanan(); //membuat makanan untuk ular
-                //nilai game
+                create_makanan();
                 nilai = 0;
  
                 if (typeof game_loop != "undefined") clearInterval(game_loop);
-                game_loop = setInterval(paint, 30);
+                game_loop = setInterval(paint, 35);
             }
  
             init();
- 
-              // membuat ular
               function create_snake() {
-                // menetapkan jumlah panjang awal ular
-                var length = 5; //panjang ular default
+                var length = 20;
                 array_ular = [];
                 for (var i = length - 1; i >= 0; i--) {
-                  //membuat ular horizontal mulai dari arah kiri
                   array_ular.push({ x: i, y: 0 });
               }
             }
  
-              //membuat makanan untuk ular
               function create_makanan() {
                 makanan = {
-                  x: Math.round(Math.random() * (lebar - cw) / cw),
-                  y: Math.round(Math.random() * (tinggi - cw) / cw)
+                  x: Math.round(Math.random() * (lebar - c) / c),
+                  y: Math.round(Math.random() * (tinggi - c) / c)
               };
             }
  
-              //pengaturan
               function paint() {
-                // warna background
                 ctx.fillStyle = "#ecf0f1";
                 ctx.fillRect(0, 0, lebar, tinggi);    
                 ctx.strokeStyle = "#2c3e50";
                 ctx.strokeRect(0, 0, lebar, tinggi);
- 
-                //membuat pergerakan untuk ular
                 var nx = array_ular[0].x;
                 var ny = array_ular[0].y;
                 if (tekan == "right") nx++;
                 else if (tekan == "left") nx--;
                 else if (tekan == "up") ny--;
                 else if (tekan == "down") ny++;
- 
-                //memeriksa tabrakan
-                if (
+
+				if (
                   nx == -1 ||
-                  nx == lebar / cw ||
+                  nx == lebar / c ||
                   ny == -1 ||
-                  ny == tinggi / cw ||
+                  ny == tinggi / c ||
                   cek_tabrakan(nx, ny, array_ular)
                   ){
- 
-                //restart game
-            init();
-            return;
-            }
- 
-                //cek jika ular kena makanan/memakan makanan
+		            init();
+		            return;
+		          }
+
                 if(nx == makanan.x && ny == makanan.y){
- 
                   var ekor = { x: nx, y: ny };
                   nilai++;
-                  
-                  //membuat makanan yang baru
                   create_makanan();
-                  
               } else {
                   var ekor = array_ular.pop();
                   ekor.x = nx;
@@ -152,24 +133,20 @@
               }
  
               array_ular.unshift(ekor);
- 
               for (var i = 0; i < array_ular.length; i++) {
                   var c = array_ular[i];
                   paint_cell(c.x, c.y);
               }
- 
-              paint_cell(makanan.x, makanan.y);    
- 
-                //membuat penilaian skor
+              paint_cell(makanan.x, makanan.y);   
                 var nilai_text = "nilai: " + nilai;
                 ctx.fillText(nilai_text, 5, tinggi - 5);
             }
  
             function paint_cell(x, y) {
                 ctx.fillStyle = "#ff0000";
-                ctx.fillRect(x * cw, y * cw, cw, cw);
-                ctx.strokeStyle = "#ecf0f1";
-                ctx.strokeRect(x * cw, y * cw, cw, cw);
+                ctx.fillRect(x * c, y * c, c, c);
+                ctx.strokeStyle = "#0099bf";
+                ctx.strokeRect(x * c, y * c, c, c);
             }
  
             function cek_tabrakan(x, y, array) {
@@ -179,7 +156,6 @@
               return false;
             }
  
-              //kontrol ular dengan keyboard
               $(document).keydown(function(e) {
                 var key = e.which;
                 if (key == "37" || key =="65" && tekan != "right") tekan = "left";
